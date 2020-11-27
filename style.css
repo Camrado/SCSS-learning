@@ -1,0 +1,89 @@
+@charset "UTF-8";
+.btn {
+  border-radius: 15px;
+  border: none;
+  background: #d6ebd3;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+body {
+  background: #302929;
+  background-image: url("img/background-leaves.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  color: #d6ebd3;
+  font-family: "Century Gothic";
+  padding: 10px;
+}
+
+.second-text, .first-text {
+  color: #d6ebd3;
+  font-family: "Century Gothic";
+  padding: 10px;
+}
+
+.first-text {
+  padding-top: 0;
+}
+
+.second-text {
+  border: 1px solid #d6ebd3;
+}
+
+.icon-40px {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.icon-50px {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.icon-80px {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+}
+
+ul:nth-child(3n+1) {
+  background-color: #004080;
+}
+
+ul:nth-child(3n+2) {
+  background-color: #004d99;
+}
+
+ul:nth-child(3n+3) {
+  background-color: #0059b3;
+}
+
+.icon-eye:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+}
+
+.icon-start:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+}
+
+.icon-stop:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+}

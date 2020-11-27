@@ -1,0 +1,171 @@
+//*-----------------------------@use rule------------------------------------
+@use 'scss/some-code' as sc with ( //? thanks to "with" we have changed the value of $radius
+    $radius: 15px                                  //? thanks to "as" now we can access to some-code.scss file with "sc" name
+); //* "scss/some-code" can be .scss, .sass and .css
+@use 'scss/variables.scss' as var; //? importing variables.scss    @use is better than @import because @import makes all 'private  variables' public!
+
+.btn {
+  @include sc.button-style;
+  margin-left: sc.$radius;
+  margin-top: sc.$radius;
+}
+
+//*-----------------------------MIXIN----------------------------------
+@mixin textstyle($color, $font, $padding: 10px) {
+  //? $padding: 10px is a optional argument, so it's optional to include him or not, so 10px is a default value
+  color: $color; //? local variable
+  font-family: $font; //? local variable
+  padding: $padding; //? local variable
+}
+
+body {
+  background: var.$bgcolor;
+  background-image: url(var.$imgurl);
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  @include textstyle(var.$textcolor, var.$font);
+}
+
+//*-----------------------------PLACEHOLDER----------------------------------
+%general {
+  @include textstyle(var.$textcolor, var.$font, 10px);
+}
+.first-text {
+  @extend %general;
+  padding-top: 0;
+}
+.second-text {
+  @extend %general;
+  border: 1px solid var.$textcolor;
+}
+
+//*------------------------------@each-----------------------------------------
+$sizes: 40px, 50px, 80px;
+
+@each $size in $sizes {
+  .icon-#{$size} {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+}
+
+//*------------------------------@for-----------------------------------------
+$base-color: #036;
+
+@for $i from 1 through 3 {
+  ul:nth-child(3n + #{$i}) {
+    background-color: lighten($base-color, $i * 5%);
+  }
+}
+//? ul:nth-child(3n + 1) {background-color: #004080;}
+//? ul:nth-child(3n + 2) {background-color: #004d99;}
+//? ul:nth-child(3n + 3) {background-color: #0059b3;}
+
+//*------------------------------MAPS-----------------------------------------
+$icons: (
+  "eye": "\f112",
+  "start": "\f12e",
+  "stop": "\f12f",
+); //? map
+
+@each $name, $glyph in $icons {
+  .icon-#{$name}:before {
+    display: inline-block;
+    font-family: "Icon Font";
+    content: $glyph;
+  }
+}
+/* .icon-eye:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+} */
+
+/*.icon-start:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+}*/
+
+/*.icon-stop:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "";
+}*/
+
+//*------------------------------BOOLEANS-----------------------------------------
+@debug true and true; //? true
+@debug true and false; //? false
+
+@debug true or false; //? true
+@debug false or false; //? false
+
+@debug not true; //? false
+@debug not false; //? true
+
+//*------------------------------EQUALITY OPERATORS-----------------------------------------
+@debug 1px == 1px; //? true
+@debug 1px != 1em; //? true
+@debug 1 != 1px; //? true
+@debug 96px == 1in; //? true
+
+@debug "Helvetica" == Helvetica; //? true
+@debug "Helvetica" != "Arial"; //? true
+
+@debug hsl(34, 35%, 92.1%) == #f2ece4; //? true
+@debug rgba(179, 115, 153, 0.5) != rgba(179, 115, 153, 0.8); //? true
+
+@debug (5px 7px 10px) == (5px 7px 10px); //? true
+@debug (5px 7px 10px) != (10px 14px 20px); //? true
+@debug (5px 7px 10px) != (5px, 7px, 10px); //? true
+
+$theme: (
+  "venus": #998099,
+  "nebula": #d2e1dd,
+);
+@debug $theme == ("venus": #998099, "nebula": #d2e1dd); //? true
+@debug $theme != ("venus": #998099, "iron": #dadbdf); //? true
+
+@debug true == true; //? true
+@debug true != false; //? true
+@debug null != false; //? true
+
+@debug get-function("rgba") == get-function("rgba"); //? true
+@debug get-function("rgba") != get-function("hsla"); //? true
+
+//*------------------------------STRING OPERATORS-----------------------------------------
+@debug "Helvetica" + " Neue"; //? "Helvetica Neue"
+@debug sans- + serif; //? sans-serif
+@debug #{10px + 5px} / 30px; //? 15px/30px
+@debug sans - serif; //? sans-serif
+
+@debug "Elapsed time: " + 10s; //? "Elapsed time: 10s";
+@debug true + " is a boolean value"; //? "true is a boolean value";
+
+@debug -moz; //? -moz
+
+//*------------------------------sass:color-----------------------------------------
+// Hue 222deg becomes 282deg.
+@debug adjust-hue(#6b717f, 60deg); // #796b7f
+
+// Hue 164deg becomes 104deg.
+@debug adjust-hue(#d2e1dd, -60deg); // #d6e1d2
+
+// Hue 210deg becomes 255deg.
+@debug adjust-hue(#036, 45); // #1a0066
+
+//? color.red() for getting a color’s red channel.
+//? color.green() for getting a color’s green channel.
+//? color.hue() for getting a color’s hue.
+//? color.saturation() for getting a color’s saturation.
+//? color.lightness() for getting a color’s lightness.
+//? color.whiteness() for getting a color’s whiteness.
+//? color.blackness() for getting a color’s blackness.
+//? color.alpha() for getting a color’s alpha channel.

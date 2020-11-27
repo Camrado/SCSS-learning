@@ -1,0 +1,13 @@
+$radius: 30px !default; //configurable because of "!default"
+$-color: rgb(212, 209, 209); //!private member because of "-" at the beginning, so it can't be accessed outside
+
+@use 'variables.scss' as var; //importing variables.scss
+
+@mixin button-style {
+  border-radius: $radius;
+  border: none;
+  background: var.$textcolor;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+}

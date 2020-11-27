@@ -1,0 +1,79 @@
+If I have changed not the main .scss file, 
+first I have to save it, 
+then I have to save the main .scss file!
+
+
+Commentin
+! - red
+? - blue
+* - green
+TODO: orange
+
+
+
+
+
+//*-----------------------------@error----------------------------------
+@mixin reflexive-position($property, $value) {
+  @if $property !=left and $property !=right {
+    @error "Property #{$property} must be either left or right.";
+  }
+
+  $left-value: if($property==right, initial, $value);
+  $right-value: if($property==right, $value, initial);
+
+  left: $left-value;
+  right: $right-value;
+
+  [dir=rtl] & {
+    left: $right-value;
+    right: $left-value;
+  }
+}
+.sidebar {
+  @include reflexive-position(top, 12px);
+  //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // Error: Property top must be either left or right.
+}
+
+
+
+
+
+//*-----------------------------@warn----------------------------------
+
+$known-prefixes: webkit, moz, ms, o;
+
+@mixin prefix($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    @if not index($known-prefixes, $prefix) {
+      @warn "Unknown prefix #{$prefix}.";
+    }
+
+    -#{$prefix}-#{$property}: $value;
+  }
+  #{$property}: $value;
+}
+
+.tilt {
+  // Oops, we typo'd "webkit" as "wekbit"!
+  @include prefix(transform, rotate(15deg), wekbit ms);
+}
+
+
+
+
+//*-----------------------------@debug----------------------------------
+//? Sometimes it’s useful to see the value of a variable or expression while you’re developing your stylesheet. That’s what the @debug rule is for: it’s written @debug <expression>, and it prints the value of that expression, along with the filename and line number.
+
+@mixin inset-divider-offset($offset, $padding) {
+  $divider-offset: (2 * $padding) + $offset;
+  @debug "divider offset: #{$divider-offset}";
+
+  margin-left: $divider-offset;
+  width: calc(100% - #{$divider-offset});
+}
+
+p.debug {
+  @include inset-divider-offset(20px, 10px);
+}
